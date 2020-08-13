@@ -111,7 +111,7 @@
 <!--breadcumb start here-->
 <section
   class="xs-banner-inner-section parallax-window"
-  style="background-image:url('assets/images/contact_bg.png')">
+  style="background-image:url('/assets/images/contact_bg.png')">
   <div class="xs-black-overlay" />
   <div class="container">
     <div class="color-white xs-inner-banner-content">

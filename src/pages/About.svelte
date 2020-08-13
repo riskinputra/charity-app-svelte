@@ -8,7 +8,7 @@
 <!--breadcumb start here-->
 <section
   class="xs-banner-inner-section parallax-window"
-  style="background-image:url('assets/images/about_bg.png')">
+  style="background-image:url('/assets/images/about_bg.png')">
   <div class="xs-black-overlay" />
   <div class="container">
     <div class="color-white xs-inner-banner-content">
@@ -33,7 +33,7 @@
       <div class="row">
         <div class="col-lg-8 content-center">
           <div class="xs-video-popup-wraper">
-            <img src="assets/images/video_img.jpg" alt="" />
+            <img src="/assets/images/video_img.jpg" alt="" />
             <div class="xs-video-popup-content">
               <a
                 href="https://www.youtube.com/watch?v=Tb1HsAGy-ls"
@@ -110,7 +110,7 @@
   <div
     class="xs-funfact-section xs-content-section-padding waypoint-tigger
     parallax-window"
-    style="background-image: url('assets/images/backgrounds/parallax_1.jpg')">
+    style="background-image: url('/assets/images/backgrounds/parallax_1.jpg')">
     <div class="container">
       <div class="row col-lg-10 xs-heading mx-auto">
         <h2 class="xs-title color-white small">
