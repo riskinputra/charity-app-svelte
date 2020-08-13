@@ -13,7 +13,7 @@
   let data = getCharity(params.id);
   async function getCharity(id) {
     const res = await fetch(
-      `http://charity-api-bwa.herokuapp.com/charities/${id}`
+      `https://charity-api-bwa.herokuapp.com/charities/${id}`
     );
     return res.json();
   }
@@ -22,7 +22,7 @@
     charity.pledged = charity.pledged + parseInt(amount);
     try {
       const res = await fetch(
-        `http://charity-api-bwa.herokuapp.com/charities/${params.id}`,
+        `https://charity-api-bwa.herokuapp.com/charities/${params.id}`,
         {
           method: "PUT",
           headers: {
