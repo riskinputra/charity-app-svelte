@@ -1,17 +1,42 @@
 <script>
+  import router from "page";
   import Header from "../components/Header.svelte";
   import Footer from "../components/Footer.svelte";
-  import { charities } from "../data/charities";
+  import Loader from "../components/Loader.svelte";
 
   export let params;
-  let data = {};
-  function getCharity(id) {
-    return charities.find(function(charity) {
-      return charity.id === parseInt(id);
-    });
+  let charity,
+    amount,
+    name,
+    email,
+    agree = false;
+  let data = getCharity(params.id);
+  async function getCharity(id) {
+    const res = await fetch(
+      `http://charity-api-bwa.herokuapp.com/charities/${id}`
+    );
+    return res.json();
   }
 
-  data = getCharity(params.id);
+  async function handleForm() {
+    charity.pledged = charity.pledged + parseInt(amount);
+    try {
+      const res = await fetch(
+        `http://charity-api-bwa.herokuapp.com/charities/${params.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json"
+          },
+          body: JSON.stringify(charity)
+        }
+      );
+
+      router.redirect("/success");
+    } catch (err) {
+      console.error(err);
+    }
+  }
 </script>
 
 <style>
@@ -35,7 +60,9 @@
 <Header />
 <!-- welcome section -->
 <!--breadcumb start here-->
-{#if data}
+{#await data}
+  <Loader />
+{:then charity}
   <section
     class="xs-banner-inner-section parallax-window"
     style="background-image:url('/assets/images/backgrounds/kat-yukawa-K0E6E0a0R3A-unsplash.jpg')">
@@ -43,7 +70,7 @@
     <div class="container">
       <div class="color-white xs-inner-banner-content">
         <h2>Donate Now</h2>
-        <p>{data.title}</p>
+        <p>{charity.title}</p>
         <ul class="xs-breadcumb">
           <li class="badge badge-pill badge-primary">
             <a href="index.html" class="color-white">Home /</a>
@@ -63,7 +90,7 @@
           <div class="col-lg-6">
             <div class="xs-donation-form-images">
               <img
-                src={data.thumbnail}
+                src={charity.thumbnail}
                 class="img-responsive"
                 alt="Family Images" />
             </div>
@@ -71,7 +98,7 @@
           <div class="col-lg-6">
             <div class="xs-donation-form-wraper">
               <div class="xs-heading xs-mb-30">
-                <h2 class="xs-title">{data.title}</h2>
+                <h2 class="xs-title">{charity.title}</h2>
                 <p class="small">
                   To learn more about make donate charity with us visit our "
                   <span class="color-green">Contact us</span>
@@ -83,14 +110,30 @@
               </div>
               <!-- .xs-heading end -->
               <form
+                on:submit|preventDefault={handleForm}
                 action="#"
                 method="post"
                 id="xs-donation-form"
                 class="xs-donation-form"
                 name="xs-donation-form">
                 <div class="xs-input-group">
-                  <label for="xs-donate-name">
+                  <label for="xs-donate-amount">
                     Donation Amount
+                    <span class="color-light-red">**</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="donation"
+                    id="xs-donate-amount"
+                    class="form-control"
+                    bind:value={amount}
+                    required
+                    placeholder="Minimum of $5" />
+                </div>
+                <!-- .xs-input-group END -->
+                <div class="xs-input-group">
+                  <label for="xs-donate-name">
+                    Your Name
                     <span class="color-light-red">**</span>
                   </label>
                   <input
@@ -98,24 +141,26 @@
                     name="name"
                     id="xs-donate-name"
                     class="form-control"
-                    placeholder="Minimum of $5" />
+                    bind:value={name}
+                    required
+                    placeholder="Your Awesome name" />
                 </div>
                 <!-- .xs-input-group END -->
+
+                <!-- .xs-input-group END -->
                 <div class="xs-input-group">
-                  <label for="xs-donate-charity">
-                    List of Evaluated Charities
+                  <label for="xs-donate-email">
+                    Your Email
                     <span class="color-light-red">**</span>
                   </label>
-                  <select
-                    name="charity-name"
-                    id="xs-donate-charity"
-                    class="form-control">
-                    <option value="">Select</option>
-                    <option value="amarokSocity">Amarok socity</option>
-                    <option value="amarokSocity">Amarok socity</option>
-                    <option value="amarokSocity">Amarok socity</option>
-                    <option value="amarokSocity">Amarok socity</option>
-                  </select>
+                  <input
+                    type="text"
+                    name="email"
+                    id="xs-donate-email"
+                    class="form-control"
+                    bind:value={email}
+                    required
+                    placeholder="email@awesome.com" />
                 </div>
                 <!-- .xs-input-group END -->
 
@@ -126,10 +171,12 @@
                   </label>
                   <input
                     type="checkbox"
+                    required
                     class="form-check-input"
-                    id="xs-donate-agree" />
+                    id="xs-donate-agree"
+                    bind:checked={agree} />
                 </div>
-                <button type="submit" class="btn btn-warning">
+                <button type="submit" class="btn btn-warning" disabled={!agree}>
                   <span class="badge">
                     <i class="fa fa-heart" />
                   </span>
@@ -146,5 +193,5 @@
     </section>
     <!-- End donation form section -->
   </main>
-{/if}
+{/await}
 <Footer />
