@@ -4,7 +4,7 @@
     <div class="xs-footer-top-layer">
       <div class="row">
         <div class="col-lg-3 col-md-6 footer-widget xs-pr-20">
-          <a href="index.html" class="xs-footer-logo">
+          <a href="/" class="xs-footer-logo">
             <img src="assets/images/footer_logo.png" alt="" />
           </a>
           <p>
@@ -40,7 +40,7 @@
           <h3 class="widget-title">About Us</h3>
           <ul class="xs-footer-list">
             <li>
-              <a href="index.html">About employee</a>
+              <a href="/">About employee</a>
             </li>
             <li>
               <a href="https://example.co">How it works</a>
